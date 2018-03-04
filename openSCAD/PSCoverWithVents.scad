@@ -18,12 +18,12 @@
 // Create variables for the size of the power supply
 // include fudge factor for plastic contraction
 
-psHeight = 51;
-psWidth = 111;
+psHeight = 51; // actual 50mm
+psWidth = 111; // actual 110mm
 psDepth = 75; // how 'tall' to make the cover
-//switchHeight
-//switchWidth
-
+switchHeight = 47.5; // actual 47.2mm
+switchWidth = 27; // actual 26.7mm
+switchDepth = 30; // actual 30.5mm (22mm excluding connection tabs)
 dcOutWidth=17;
 dcOutHeight=16;
 
@@ -41,6 +41,11 @@ module cover() {
         translate([thickness/2,thickness/2,thickness/2]) cube([psWidth,psHeight,psDepth]);
         dcHole();
     }
+    translate([psWidth + 1.5*thickness, psHeight+thickness,0]) {
+        rotate([90, 0, -90 ]) {
+            acSwitchSupport();
+        }
+    }
 }
 
 module dcHole() {
@@ -48,5 +53,12 @@ module dcHole() {
         rotate([90,0,-90]) {
             cube([dcOutWidth,dcOutHeight,thickness+2]);
         }
+    }
+}
+
+module acSwitchSupport() {
+    difference() {
+        cube([switchHeight+2*thickness, switchWidth+2*thickness, switchDepth ]);
+        translate([thickness, thickness, 0]) cube([switchHeight, switchWidth, switchDepth]);
     }
 }
